@@ -71,9 +71,9 @@
             </p>
             {% endif %}
 
-            {% comment %} <p >   
-              <a href="{% url 'herois:tabela' %}"  class="btn btn-outline-success my-2">Ver Equipe</a>
-            </p>  {% endcomment %}
+            <p >   
+                <a href="{% url 'herois:time_herois' %}"  class="btn btn-outline-success my-2">Ver Equipe</a>
+            </p> 
 
                 {% for message in messages %}
                     <p class="text-center" style="color:red; font-size: 18px;">{{ message }}</p>

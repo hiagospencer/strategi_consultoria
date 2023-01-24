@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import (    cadastro_user, login_user, logout_user, tabela_equipe, 
+from .views import (    cadastro_user, login_user, logout_user, tabela_equipe, time_herois,
                         HomeList, HeroisDetail, 
   )
 
@@ -10,7 +10,8 @@ urlpatterns = [
     
     # urls tabela equipe   
     path('equipe/', tabela_equipe, name='equipe_herois'),
-
+    path('equipe/herois', time_herois, name='time_herois'),
+    
     # Urls de Login e Register
     path('login/', login_user, name="login"),
     path('login/cadastro/', cadastro_user, name="cadastro"),

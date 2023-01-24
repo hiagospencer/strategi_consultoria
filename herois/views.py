@@ -108,6 +108,15 @@ def tabela_equipe(request):
     return render(request,'equipe.html', context)
 
 
+@login_required(login_url='/login/')
+def time_herois(request):
+    context = {}
+    usuario = request.user
+    lista_equipe = EquipeHeroi.objects.filter(user=usuario)
+    context['time_herois'] = lista_equipe
+
+    return render(request, 'time_herois.html', context)
+
 # ============================ CLASS =============================
 
 

@@ -84,7 +84,7 @@
 
                     <form method='POST' action='{% url "herois:equipe_herois" %}' class="form"> {% csrf_token %}
                         <input type='hidden' name='heroi_id' value='{{ object.id }}' />
-                        <button type="submit" style="background: #229340; color: white;" class="btn  px-3">Adiconar a Equipe</button>
+                        <button type="submit" class="btn btn-outline-success px-3">Adiconar a Equipe</button>
                                                
                         <a href="{% url 'herois:home' %}"  class="btn btn-outline-danger">Voltar</a>
                     </form>
