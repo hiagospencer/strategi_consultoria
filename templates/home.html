@@ -1,0 +1,198 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="utf-8">
+    <title>Projeto - Marvel</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Free HTML Templates" name="keywords">
+    <meta content="Free HTML Templates" name="description">
+
+    <!-- Favicon -->
+    <link href="{% static 'imagens/logo-space-games.ico' %}" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="{% static 'lib/animate/animate.min.css' %}" rel="stylesheet">
+    <link href="{% static 'lib/owlcarousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
+    
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+</head>
+
+<body>
+ 
+    <div class="container-fluid">
+        <div class="row align-items-center bg-light py-3 px-xl-5 d-none d-lg-flex">
+
+                <div class="col-lg-4">              
+                </div>
+
+                <div class="col-lg-4 col-6 ">
+                    <a href="{% url 'herois:home' %}"><img src="{% static 'imagens/marvel.webp' %}" style="width:100%; heigth:200px;"></a>
+                </div>             
+
+                    <div class="col-lg-4 col-6 text-right">
+                        {% if user.is_authenticated %}
+                            <a style="color:black;" href="{% url 'herois:sair' %}">Logout</a>
+                            {% else %}
+                            <a style="color:black;" href="{% url 'herois:cadastro' %}">Crie sua conta</a>  | 
+                            <a style="color:black;" href="{% url 'herois:login' %}">Entrar</a>                           
+                        {% endif %}
+                    </div>              
+        </div><!--Row align-items-center-->
+        
+    </div><!-- =========== Fim do Header ====================-->
+    
+
+    <!-- ===============   Inicianado a Página ====================-->
+
+    <section class="py-5 text-center container">
+        <div class="row py-lg-5">
+          <div class="col-lg-6 col-md-8 mx-auto">
+
+            {% if user.is_authenticated %}
+            <h1 class="fw-light">Olá, {{ user.get_username}}. Bem Vindo ao Quartel da Marvel</h1>
+            <p class="lead text-muted">Aqui você vai encontrar todos os Heróis e Vilões da Marvel. 
+                Fique a vontade para descobrir novos Personagens e criar a sua própria equipe.
+            </p>
+            {% else %}
+            <h1 class="fw-light">Bem Vindos ao Quartel da Marvel</h1>
+            <p class="lead text-muted">Aqui você vai encontrar todos os Heróis e Vilões da Marvel. 
+                Fique a vontade para descobrir novos Personagens e criar a sua própria equipe.
+            </p>
+            {% endif %}
+
+            {% comment %} <p >   
+              <a href="{% url 'herois:tabela' %}"  class="btn btn-outline-success my-2">Ver Equipe</a>
+            </p>  {% endcomment %}
+
+                {% for message in messages %}
+                    <p class="text-center" style="color:red; font-size: 18px;">{{ message }}</p>
+                {% endfor %}
+
+          </div>
+        </div>
+      </section>
+
+    <!-- =================================   Produto em destaque   =============================== -->
+    
+    <div class="container-fluid pt-5 pb-3">
+        <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Personagens da Marvel</span></h2>
+       
+        <div class="col-12 ">
+            <div class="row pb-3">
+                <div class="col-12 pb-1">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <div>
+                            
+                        </div>
+                        <div class="ml-2">
+                            <form action="?" method="GET" role="search">
+                                <div class="input-group">
+                                    <input type="search" class="form-control" name="nome" aria-label="search" value="{{ request.GET.nome}}" placeholder="Pesquisar Personagem" autocomplete="off">
+                                    <div class="input-group-append">
+                                        <button class="input-group-text bg-transparent text-primary" type="submit">
+                                            <i class="fa fa-search" ></i>
+                                        </button>
+
+                                        <span class="input-group-text bg-transparent text-primary">
+                                            <a href="{% url 'herois:home' %}"><i class="fa fa-trash" ></i></a>
+                                        </span>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div><!-- =========== barra de pesquisa =================-->
+
+        <div class="row px-xl-5">
+            {% for heroi in object_list %}
+            <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
+                <div class="product-item bg-light mb-4">
+                    
+
+                    <div class="product-img position-relative overflow-hidden">
+                        <a  href="{% url 'herois:detalhes' heroi.id %}"><img class="img-fluid w-100" src="{{ heroi.img}}" alt=""></a>
+                        
+                    </div>
+                    <div class="text-center py-4">
+                        <a class="h6 text-decoration-none text-truncate" href="#">{{ heroi.nome}}</a>
+                        
+                        <div class="d-flex align-items-center justify-content-center mt-2">
+                            
+                            <p>{{ heroi.descricao|slice:'100' }}...</p>
+                            
+                        </div>
+                        <a href="{% url 'herois:detalhes' heroi.id %}" class="btn btn-primary">Detalhes</a>
+                    </div>
+                </div>
+            </div>           
+            {% endfor %}          
+        </div>
+    </div>
+
+    <div class="col-12">
+
+        <ul class="pagination justify-content-center"><!-- ============= Paginação ===========-->
+
+            {% if page_obj.has_previous %}
+
+                {% if  request.GET.nome %} 
+                    <li class="page-item"><a style="color:black;" class="page-link" href="?page=1&nome={{ request.GET.nome}}">&laquo; Primeira</a></li>
+                    <li class="page-item"><a style="color:black;" class="page-link" href="?page={{ page_obj.previous_page_number }}">Anterior</a></li>
+                {% else %}
+                    <li class="page-item"><a style="color:black;" class="page-link" href="?page=1">&laquo; Primeira</a></li>
+                    <li class="page-item"><a style="color:black;" class="page-link" href="?page={{ page_obj.previous_page_number }}&nome={{ request.GET.nome}}">Anterior</a></li>
+                {% endif %}
+
+            {% endif %}
+  
+            <li class="page-item">
+                <span style="color:black;" class="page-link">Página: {{ page_obj.number }}</span>
+            </li>
+  
+            {% if page_obj.has_next %}
+
+                {% if  request.GET.nome %} 
+                    <li class="page-item"><a style="color:black;" class="page-link" href="?page={{ page_obj.next_page_number}}&nome={{ request.GET.nome}}">Próximo</a></li>
+                    <li class="page-item"><a style="color:black;" class="page-link" href="?page={{ page_obj.paginator.num_pages}}&nome={{ request.GET.nome}}">Ultima &raquo;</a></li>
+                {% else %}
+                    <li class="page-item"><a style="color:black;" class="page-link" href="?page={{ page_obj.next_page_number}}">Próximo</a></li>
+                    <li class="page-item"><a style="color:black;" class="page-link" href="?page={{ page_obj.paginator.num_pages}}">Ultima &raquo;</a></li>
+                {% endif %}
+
+            {% endif %}
+
+
+  
+          </ul>
+
+    </div>
+    
+  <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'lib/easing/easing.min.js' %}"></script>
+    <script src="{% static 'lib/owlcarousel/owl.carousel.min.js' %}"></script>
+
+    <!-- Contact Javascript File -->
+    
+    <script src="{% static 'mail/jqBootstrapValidation.min.js' %}"></script>
+    <script src="{% static 'mail/contact.js' %}"></script>
+
+    <!-- Template Javascript -->
+    <script src="{% static 'js/main.js' %}"></script>
+</body>
+
+</html>

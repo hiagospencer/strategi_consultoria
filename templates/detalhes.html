@@ -1,0 +1,114 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="utf-8">
+    <title>Detalhes</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Free HTML Templates" name="keywords">
+    <meta content="Free HTML Templates" name="description">
+
+    <!-- Favicon -->
+    <link href="{% static 'imagens/logo-space-games.ico' %}" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="{% static 'lib/animate/animate.min.css' %}" rel="stylesheet">
+    <link href="{% static 'lib/owlcarousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
+    
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+</head>
+
+<body>
+ 
+    <div class="container-fluid mb-4">
+
+        <div class="row align-items-center bg-light py-3 px-xl-5 d-none d-lg-flex">
+            <div class="col-lg-4">
+                
+            </div>
+
+                <div class="col-lg-4 col-6 ">
+                    <a href="{% url 'herois:home' %}"><img src="{% static 'imagens/marvel.webp' %}" style="width:100%; heigth:200px;"></a>
+                </div>
+
+                <div class="col-lg-4 col-6 text-right">
+                    {% if user.is_authenticated %}
+                        <a style="color:black;" href="{% url 'herois:sair' %}">Logout</a>
+
+                        {% else %}
+                        <a style="color:black;" href="{% url 'herois:cadastro' %}">Crie sua conta</a>  | 
+                        <a style="color:black;" href="{% url 'herois:login' %}">Entrar</a>
+                            
+                    {% endif %}
+                </div>
+                
+        </div>
+    </div>
+
+
+    <!-- =================================  DETALHES DO PERSONAGEM   =============================== -->
+    
+    
+    <div class="container-fluid pb-5">
+        <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Detalhes {{ object.nome }}</span></h2>
+        <div class="row px-xl-5">
+            <div class="col-lg-5 mb-30">
+                <div id="product-carousel" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner bg-light">
+                        <div class="carousel-item active">
+                            <img class="w-100 h-100" src="{{ object.img}}" alt="Image">
+                        </div>
+                    </div>                 
+                </div>
+            </div>
+
+            <div class="col-lg-7 h-auto mb-30">
+                <div class="h-100 bg-light p-30">
+                    <h3 class="text-center">{{ object.nome}}</h3>
+
+                    <div class="d-flex mb-3">                           
+                        <h5 class="mr-2">Descrição:</h5>
+                        <p>{{ object.descricao}}</p>
+                    </div>
+
+
+                    <form method='POST' action='{% url "herois:equipe_herois" %}' class="form"> {% csrf_token %}
+                        <input type='hidden' name='heroi_id' value='{{ object.id }}' />
+                        <button type="submit" style="background: #229340; color: white;" class="btn  px-3">Adiconar a Equipe</button>
+                                               
+                        <a href="{% url 'herois:home' %}"  class="btn btn-outline-danger">Voltar</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
+
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'lib/easing/easing.min.js' %}"></script>
+    <script src="{% static 'lib/owlcarousel/owl.carousel.min.js' %}"></script>
+
+    <!-- Contact Javascript File -->
+    
+    <script src="{% static 'mail/jqBootstrapValidation.min.js' %}"></script>
+    <script src="{% static 'mail/contact.js' %}"></script>
+
+    <!-- Template Javascript -->
+    <script src="{% static 'js/main.js' %}"></script>
+</body>
+
+</html>
