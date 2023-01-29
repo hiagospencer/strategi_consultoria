@@ -10,7 +10,7 @@ SECRET_KEY = 'django-insecure-(vfhyjcc!i05w9#ydj^%%y%=l=m5bb%1hr(l1hhv2+mi56^hq&
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.ngrok.io']
+ALLOWED_HOSTS = ['*']
 
 
 
@@ -103,7 +103,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
